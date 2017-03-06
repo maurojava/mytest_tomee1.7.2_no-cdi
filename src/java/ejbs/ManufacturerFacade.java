@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author mauro
+ * @author kuw
  */
 @Stateless
 public class ManufacturerFacade extends AbstractFacade<Manufacturer> {

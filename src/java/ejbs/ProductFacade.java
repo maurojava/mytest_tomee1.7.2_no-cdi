@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  *
- * @author mauro
+ * @author kuw
  */
 @Stateless
 public class ProductFacade extends AbstractFacade<Product> {

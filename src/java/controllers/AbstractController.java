@@ -34,6 +34,7 @@ public abstract class AbstractController<T> implements Serializable {
     private T selected;
     private Collection<T> items;
     private LazyEntityDataModel<T> lazyItems;
+    private List<T> filteredItems;
 
     private enum PersistAction {
         CREATE,
@@ -179,6 +180,14 @@ public abstract class AbstractController<T> implements Serializable {
         } else {
             lazyItems = new LazyEntityDataModel<>(new ArrayList<>(items));
         }
+    }
+
+    public List<T> getFilteredItems() {
+        return filteredItems;
+    }
+
+    public void setFilteredItems(List<T> filteredItems) {
+        this.filteredItems = filteredItems;
     }
 
     /**

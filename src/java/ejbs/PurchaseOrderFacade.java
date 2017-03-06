@@ -18,7 +18,7 @@ import entities.Product;
 
 /**
  *
- * @author mauro
+ * @author kuw
  */
 @Stateless
 public class PurchaseOrderFacade extends AbstractFacade<PurchaseOrder> {
