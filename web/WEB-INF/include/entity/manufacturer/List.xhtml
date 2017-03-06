@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ManufacturerListForm">
+
+        <p:panel header="#{myBundle.ListManufacturerTitle}">
+            <p:contextMenu id="ManufacturerDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ManufacturerListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ManufacturerListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ManufacturerListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ManufacturerListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ManufacturerMenuItem_productList}" icon="ui-icon-search"  action="#{manufacturerController.navigateProductList}" disabled="#{manufacturerController.isProductListEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{manufacturerController.items}"
+                         lazy="false"
+                         rowKey="#{item.manufacturerId}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{manufacturerController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{manufacturerController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.manufacturerId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManufacturerDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManufacturerDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ManufacturerListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.manufacturerId}" filterBy="#{item.manufacturerId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListManufacturerTitle_manufacturerId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.manufacturerId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.name}" filterBy="#{item.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListManufacturerTitle_name}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.addressline1}" filterBy="#{item.addressline1}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListManufacturerTitle_addressline1}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.addressline1}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.addressline2}" filterBy="#{item.addressline2}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListManufacturerTitle_addressline2}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.addressline2}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.city}" filterBy="#{item.city}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListManufacturerTitle_city}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.city}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.state}" filterBy="#{item.state}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListManufacturerTitle_state}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.state}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.zip}" filterBy="#{item.zip}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListManufacturerTitle_zip}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.zip}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.phone}" filterBy="#{item.phone}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListManufacturerTitle_phone}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.phone}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.fax}" filterBy="#{item.fax}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListManufacturerTitle_fax}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fax}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListManufacturerTitle_email}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.email}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.rep}" filterBy="#{item.rep}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListManufacturerTitle_rep}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.rep}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{manufacturerController.prepareCreate}" update=":ManufacturerCreateForm" oncomplete="PF('ManufacturerCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ManufacturerViewForm" oncomplete="PF('ManufacturerViewDialog').show()" disabled="#{empty manufacturerController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ManufacturerEditForm" oncomplete="PF('ManufacturerEditDialog').show()" disabled="#{empty manufacturerController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{manufacturerController.delete}" update=":growl,datalist" disabled="#{empty manufacturerController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

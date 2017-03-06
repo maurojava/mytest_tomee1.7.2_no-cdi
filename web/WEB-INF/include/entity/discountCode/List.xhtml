@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DiscountCodeListForm">
+
+        <p:panel header="#{myBundle.ListDiscountCodeTitle}">
+            <p:contextMenu id="DiscountCodeDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('DiscountCodeListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('DiscountCodeListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('DiscountCodeListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('DiscountCodeListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.DiscountCodeMenuItem_customerList}" icon="ui-icon-search"  action="#{discountCodeController.navigateCustomerList}" disabled="#{discountCodeController.isCustomerListEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{discountCodeController.items}"
+                         lazy="false"
+                         rowKey="#{item.discountCode}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{discountCodeController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{discountCodeController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.discountCode}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DiscountCodeDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DiscountCodeDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DiscountCodeListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.discountCode}" filterBy="#{item.discountCode}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiscountCodeTitle_discountCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.discountCode}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rate}" filterBy="#{item.rate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiscountCodeTitle_rate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rate}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{discountCodeController.prepareCreate}" update=":DiscountCodeCreateForm" oncomplete="PF('DiscountCodeCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":DiscountCodeViewForm" oncomplete="PF('DiscountCodeViewDialog').show()" disabled="#{empty discountCodeController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":DiscountCodeEditForm" oncomplete="PF('DiscountCodeEditDialog').show()" disabled="#{empty discountCodeController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{discountCodeController.delete}" update=":growl,datalist" disabled="#{empty discountCodeController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>
